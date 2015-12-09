@@ -83,6 +83,10 @@ var Comments = Backbone.Collection.extend({
  * - count the total number of votes, across all comments
  *
  * That means we need to write a new view: */
+
+// this is something I created with help of Help Desk and underscore.js. NOT PART OF TUTORIAL!!!!!!!
+var commentTempl = _.template('<li><span class="votes"><%= votes %></span><span class="message"><%= message%></span></li>');
+
 var CommentsView = Backbone.View.extend({
   /* Again, we use our initialize function to register listeners.
    * In this case, we want to know when votecounts of the models
@@ -110,14 +114,10 @@ var CommentsView = Backbone.View.extend({
     /* Render each model in the collection as a list item (<li>).
      * Remember, we have the underscore functions: */
     this.$el.find('ul').append(this.collection.map(function(comment) {
-      '<li>'
-        '<span class="votes">'
-          comment.get('votes')
-        '</span>'
-        '<span class="message">'
-          comment.get('message')
-        '</span>'
-      '</li>'
+      return commentTempl({
+        votes: comment.get('votes'),
+        message: comment.get('message')
+      });
     }));
 
     return this.$el;
